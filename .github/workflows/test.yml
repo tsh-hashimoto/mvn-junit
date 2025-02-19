@@ -13,15 +13,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: checkout repository
+      - name: リポジトリをチェックアウト
         uses: actions/checkout@v4
 
       - name: JDK をセットアップ (Java 21)
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'  # AdoptOpenJDK (Eclipse Temurin)
+          distribution: 'temurin'
           java-version: '21'
-          cache: 'maven'  # Gradle の場合は 'gradle'
+          cache: 'maven'
 
-      - name: run test
-        run: mvn test
+      - name: mvn-junit ディレクトリに移動
+        run: cd mvn-junit
+
+      - name: JUnit テスト実行 (Maven)
+        run: |
+          cd mvn-junit
+          mvn test
+
+      - name: JUnit テスト結果をアップロード
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: junit-results
+          path: mvn-junit/target/surefire-reports/*.xml
