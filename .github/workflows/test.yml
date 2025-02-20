@@ -23,10 +23,6 @@ jobs:
           java-version: '21'
           cache: 'maven'
 
-      - name: mvn-junit ディレクトリに移動
-        run: cd mvn-junit
-
-      - name: JUnit テスト実行 (Maven)
+      - name: run test
         run: |
-          cd mvn-junit
           mvn test
