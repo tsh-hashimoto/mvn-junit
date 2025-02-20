@@ -1,4 +1,4 @@
-name: JUnit Tests
+name: junit-test
 
 on:
   push:
@@ -13,10 +13,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: リポジトリをチェックアウト
+      - name: checkout repositoy
         uses: actions/checkout@v4
 
-      - name: JDK をセットアップ (Java 21)
+      - name: setup JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
@@ -30,10 +30,3 @@ jobs:
         run: |
           cd mvn-junit
           mvn test
-
-      - name: JUnit テスト結果をアップロード
-        if: failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: junit-results
-          path: mvn-junit/target/surefire-reports/*.xml
